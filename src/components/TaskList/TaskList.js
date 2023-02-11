@@ -1,14 +1,14 @@
 import "./TaskList.css";
 import Task from "../Task/Task";
 
-const TaskList = ({ todos }) => {
+const TaskList = ({ todos, onDeleted }) => {
 
     const elements = todos.map((item) => {
        const { id, label } = item;
 
         return (
             <Task label = { label } key = { id }
-            onDeleted = {() => console.log('deleted')}/>
+            onDeleted = { () => onDeleted(id) }/>
         );
     });
     return (
