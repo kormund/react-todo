@@ -6,29 +6,16 @@ const creationDate = formatDistanceToNow(new Date(), {includeSeconds: true});
 
 export default class Task extends Component {
 
-    state = {
-        done: false,
-        edit: false
-    };
-
-    onLabelClick = () => {
-        this.setState(({ done }) => {
-            return {
-                done: !done
-            }
-        });
-    };
-
-    onEditClick = () => {
-        this.setState( ({ edit }) => {
-            return {
-                edit: !edit
-            }
-        })
-    }
     render() {
-        const { label, id, onDeleted } = this.props;
-        const { done, edit } = this.state;
+        const {
+            label,
+            id,
+            onDeleted,
+            onToggleDone,
+            onToggleEdit,
+            edit,
+            done
+        } = this.props;
 
         let className = '';
         if (done) {
@@ -40,17 +27,17 @@ export default class Task extends Component {
         }
 
         return (
-            <li key = { id } className={className}>
+            <li key = { id } className={ className }>
                 <div className="view">
                     <input className="toggle" type="checkbox" checked={ done } readOnly={ true }
-                           onClick={ this.onLabelClick }/>
+                           onClick={ onToggleDone }/>
                     <label
-                    onClick={ this.onLabelClick }>
+                    onClick={ onToggleDone }>
                         <span className="description">{ label }</span>
                         <span className="created">created { creationDate } ago</span>
                     </label>
                     <button className="icon icon-edit"
-                    onClick={ this.onEditClick }></button>
+                    onClick={ onToggleEdit }></button>
                     <button className="icon icon-destroy"
                     onClick={ onDeleted }></button>
 
@@ -58,6 +45,6 @@ export default class Task extends Component {
                 </div>
                 {edit && <input type="text" className="edit" value={label}/>}
             </li>
-        )
-    }
-}
+        );
+    };
+};
