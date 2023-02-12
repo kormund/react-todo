@@ -3,6 +3,8 @@ import TasksFilter from "../TasksFilter/TasksFilter";
 import {Component} from "react";
 
 export default class Footer extends Component {
+
+
     render() {
         return (
             <footer className="footer">
@@ -12,7 +14,8 @@ export default class Footer extends Component {
                     <TasksFilter selected={false} description={'Active'} />
                     <TasksFilter selected={false} description={'Completed'} />
                 </ul>
-                <button className="clear-completed">Clear completed</button>
+                <button className="clear-completed"
+                onClick={ this.props.deleteCompleted }>Clear completed</button>
             </footer>
         )
     }

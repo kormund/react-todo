@@ -58,6 +58,16 @@ export default class App extends Component {
         });
     };
 
+    deleteCompleted = () => {
+    this.setState(({ taskData }) => {
+        const completedData = taskData.filter((el) => !el.done);
+
+        return {
+            taskData: completedData
+        }
+    })
+}
+
     toggleProperty(arr, id, propName) {
         const idx = arr.findIndex((el) => el.id === id);
 
@@ -102,7 +112,8 @@ export default class App extends Component {
                         onToggleEdit = { this.onToggleEdit }
                         onToggleDone = { this.onToggleDone }/>
                 </section>
-                <Footer done = { doneCount } />
+                <Footer done = { doneCount }
+                        deleteCompleted = { this.deleteCompleted }/>
 
             </section>
         );
