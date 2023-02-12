@@ -4,18 +4,18 @@ import {Component} from "react";
 
 export default class Footer extends Component {
 
-
     render() {
+
+        const { filter, onFilterChange, deleteCompleted, done } = this.props
+
         return (
             <footer className="footer">
-                <span className="todo-count">{ this.props.done } items left</span>
-                <ul className="filters">
-                    <TasksFilter selected={true} description={'All'} />
-                    <TasksFilter selected={false} description={'Active'} />
-                    <TasksFilter selected={false} description={'Completed'} />
-                </ul>
+                <span className="todo-count">{ done } items left</span>
+                <TasksFilter filter = { filter }
+                             onFilterChange= { onFilterChange }
+                />
                 <button className="clear-completed"
-                onClick={ this.props.deleteCompleted }>Clear completed</button>
+                onClick={ deleteCompleted }>Clear completed</button>
             </footer>
         )
     }

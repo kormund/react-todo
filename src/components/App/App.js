@@ -14,15 +14,36 @@ export default class App extends Component {
             this.createTask('Build react app'),
             this.createTask('Eat brunch'),
             this.createTask('Save your progress')
-        ]
+        ],
+
+        filter: 'all',
+        timer: new Date()
     };
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            5000
+        );
+    }
+
+    tick() {
+        this.setState({
+            timer: new Date()
+        });
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
 
     createTask(label) {
         return {
             label,
             id: this.maxId++,
             done: false,
-            edit: false
+            edit: false,
+            date: Date.now()
         }
     }
 
@@ -95,11 +116,31 @@ export default class App extends Component {
             }
         });
     }
+
+    filter(items, filter) {
+        switch (filter) {
+            case 'all':
+                return items;
+            case 'active':
+                return items.filter((el) => !el.done);
+            case 'completed':
+                return items.filter((el) => el.done);
+            default:
+                return items;
+        }
+    }
+
+    onFilterChange = (filter) => {
+        this.setState({ filter });
+    }
     render() {
 
-        const doneCount = this.state.taskData
+        const {taskData, filter} = this.state
+
+        const doneCount = taskData
                             .filter((el) => !el.done).length;
 
+        const visibleItems = this.filter(taskData, filter);
 
         return (
             <section className='todoapp'>
@@ -107,13 +148,15 @@ export default class App extends Component {
                 addItem = { this.addItem }/>
                 <section className='main'>
                     <TaskList
-                        todos={this.state.taskData}
+                        todos={ visibleItems }
                         onDeleted = { this.deleteItem }
                         onToggleEdit = { this.onToggleEdit }
                         onToggleDone = { this.onToggleDone }/>
                 </section>
                 <Footer done = { doneCount }
-                        deleteCompleted = { this.deleteCompleted }/>
+                        deleteCompleted = { this.deleteCompleted }
+                        filter = { filter }
+                onFilterChange = { this.onFilterChange }/>
 
             </section>
         );

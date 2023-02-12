@@ -2,7 +2,7 @@ import './Task.css';
 import { formatDistanceToNow } from 'date-fns'
 import {Component} from "react";
 
-const creationDate = formatDistanceToNow(new Date(), {includeSeconds: true});
+
 
 export default class Task extends Component {
 
@@ -14,8 +14,11 @@ export default class Task extends Component {
             onToggleDone,
             onToggleEdit,
             edit,
-            done
+            done,
+            date
         } = this.props;
+
+        const creationDate = formatDistanceToNow(date, {includeSeconds: true});
 
         let className = '';
         if (done) {
