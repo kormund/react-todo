@@ -51,3 +51,14 @@ export default class Task extends Component {
         );
     };
 };
+
+Task.defaultProps = {
+    label: '',
+    id: '',
+    onDeleted: () => {},
+    onToggleDone: () => {},
+    onToggleEdit: () => {},
+    edit: 'false',
+    done: 'false',
+    date: new Date()
+}

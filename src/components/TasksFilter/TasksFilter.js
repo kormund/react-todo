@@ -34,4 +34,9 @@ class TasksFilter extends Component {
     }
 }
 
+TasksFilter.defaultProps = {
+    filter: () => {},
+    onFilterChange: () => {}
+}
+
 export default TasksFilter;

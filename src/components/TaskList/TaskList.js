@@ -28,4 +28,11 @@ const TaskList = ({ todos, onDeleted, onToggleDone, onToggleEdit }) => {
     //
 };
 
+TaskList.defaultProps = {
+    todos: [],
+    onDeleted: () => {},
+    onToggleDone: () => {},
+    onToggleEdit: () => {}
+}
+
 export default TaskList;

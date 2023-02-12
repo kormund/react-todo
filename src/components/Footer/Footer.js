@@ -20,3 +20,10 @@ export default class Footer extends Component {
         )
     }
 }
+
+Footer.defaultProps = {
+    filter: 'all',
+    onFilterChange: () => {},
+    deleteCompleted: () => {},
+    done: false
+};

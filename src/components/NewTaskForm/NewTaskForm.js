@@ -1,7 +1,7 @@
 import "./NewTaskForm.css";
 import {Component} from "react";
 
-class NewTaskForm extends Component {
+export default class NewTaskForm extends Component {
 
     state = {
         label: ''
@@ -38,4 +38,6 @@ class NewTaskForm extends Component {
     }
 }
 
-export default NewTaskForm;
+NewTaskForm.defaultProps = {
+    addItem: () => {}
+}
