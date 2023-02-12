@@ -6,7 +6,7 @@ export default class Footer extends Component {
     render() {
         return (
             <footer className="footer">
-                <span className="todo-count">1 items left</span>
+                <span className="todo-count">{ this.props.done } items left</span>
                 <ul className="filters">
                     <TasksFilter selected={true} description={'All'} />
                     <TasksFilter selected={false} description={'Active'} />
