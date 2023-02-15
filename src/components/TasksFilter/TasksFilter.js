@@ -1,50 +1,40 @@
-import "./TasksFilter.css";
-import {Component} from "react";
-import PropTypes from "prop-types";
+import './TasksFilter.css'
+import { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class TasksFilter extends Component {
-    static defaultProps = {
-        filter: () => {
-        },
-        onFilterChange: () => {
-        }
-    };
+  static defaultProps = {
+    filter: '',
+    onFilterChange: () => {},
+  }
 
-    static propTypes = {
-        filter: PropTypes.func,
-        onFilterChange: PropTypes.func
-    }
+  static propTypes = {
+    filter: PropTypes.string,
+    onFilterChange: PropTypes.func,
+  }
 
-    btnFilters = [
-        {name: 'all', label: 'All'},
-        {name: 'active', label: 'Active'},
-        {name: 'completed', label: 'Completed'}
-    ];
+  btnFilters = [
+    { name: 'all', label: 'All' },
+    { name: 'active', label: 'Active' },
+    { name: 'completed', label: 'Completed' },
+  ]
 
-    render() {
+  render() {
+    const { filter, onFilterChange } = this.props
 
-        const {filter, onFilterChange} = this.props;
+    const btnFilters = this.btnFilters.map(({ name, label }) => {
+      const isActive = filter === name
 
-        const btnFilters = this.btnFilters.map(({name, label}) => {
-            const isActive = filter === name;
+      const btnClass = isActive ? 'selected' : ''
+      return (
+        <label key={name} className={btnClass}>
+          {' '}
+          {label}
+          <input type={'radio'} onClick={() => onFilterChange(name)} name="filter" checked={isActive} readOnly />
+        </label>
+      )
+    })
 
-            const btnClass = isActive ? 'selected' : '';
-
-            return (
-                <li key={name}>
-                    <button
-                        className={btnClass}
-                        onClick={() => onFilterChange(name)}
-                    > {label}
-                </button>
-                </li>
-            )
-        });
-
-        return (
-            <div className='filters'>
-                {btnFilters}
-            </div>
-        )
-    };
-};
+    return <div className="filters">{btnFilters}</div>
+  }
+}
