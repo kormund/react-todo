@@ -8,12 +8,7 @@ import TaskList from '../TaskList/TaskList'
 export default class App extends Component {
   maxId = Math.floor(Math.random() * 100 + 1)
   state = {
-    taskData: [
-      this.createTask('Drink tea'),
-      this.createTask('Build react app'),
-      this.createTask('Eat brunch'),
-      this.createTask('Save your progress'),
-    ],
+    taskData: [],
 
     filter: 'all',
     timer: new Date(),
