@@ -1,46 +1,45 @@
-import "./TaskList.css";
-import Task from "../Task/Task";
-import PropTypes from "prop-types";
+import './TaskList.css'
+import PropTypes from 'prop-types'
 
-const TaskList = ({ todos, onDeleted, onToggleDone, onToggleEdit }) => {
+import Task from '../Task/Task'
 
-    const elements = todos.map((item) => {
-       const { id, label, edit, done, date } = item;
+const TaskList = ({ todos, onDeleted, onToggleDone, onToggleEdit, onEditChange }) => {
+  const elements = todos.map((item) => {
+    const { id, label, edit, done, date } = item
 
-        return (
-            <Task
-                label = { label }
-                key = { id }
-                edit = { edit }
-                done = { done }
-                date = { date }
-                onDeleted = { () => onDeleted(id) }
-                onToggleDone = { () => onToggleDone(id) }
-                onToggleEdit = { () => onToggleEdit(id) }
-            />
-        );
-    });
     return (
-        <ul className="todo-list">
-            { elements }
-        </ul>
-    );
+      <Task
+        label={label}
+        key={id}
+        edit={edit}
+        done={done}
+        date={date}
+        onDeleted={() => onDeleted(id)}
+        onToggleDone={() => onToggleDone(id)}
+        onToggleEdit={() => onToggleEdit(id)}
+        onEditChange={(label) => onEditChange(id, label)}
+      />
+    )
+  })
+  return <ul className="todo-list">{elements}</ul>
 
-    //
-};
+  //
+}
 
 TaskList.defaultProps = {
-    todos: [],
-    onDeleted: () => {},
-    onToggleDone: () => {},
-    onToggleEdit: () => {}
+  todos: [],
+  onDeleted: () => {},
+  onToggleDone: () => {},
+  onToggleEdit: () => {},
+  onEditChange: () => {},
 }
 
 TaskList.propTypes = {
-    todos: PropTypes.array,
-    onDeleted: PropTypes.func,
-    onToggleDone: PropTypes.func,
-    onToggleEdit: PropTypes.func
+  todos: PropTypes.array,
+  onDeleted: PropTypes.func,
+  onToggleDone: PropTypes.func,
+  onToggleEdit: PropTypes.func,
+  onEditChange: PropTypes.func,
 }
 
-export default TaskList;
+export default TaskList
