@@ -1,2 +1,1 @@
-todo app made on react
-vercel app: 
+vercel app: https://react-todo-kormund.vercel.app
