@@ -1,15 +1,14 @@
 import './App.css'
 import { Component } from 'react'
+import { nanoid } from 'nanoid'
 
 import Footer from '../Footer/Footer'
 import NewTaskForm from '../NewTaskForm/NewTaskForm'
 import TaskList from '../TaskList/TaskList'
 
 export default class App extends Component {
-  maxId = Math.floor(Math.random() * 100 + 1)
   state = {
     taskData: [],
-
     filter: 'all',
     timer: new Date(),
   }
@@ -31,7 +30,7 @@ export default class App extends Component {
   createTask(label) {
     return {
       label,
-      id: this.maxId++,
+      id: nanoid(),
       done: false,
       edit: false,
       date: Date.now(),
@@ -118,7 +117,7 @@ export default class App extends Component {
   onEditChange = (id, newLabel) => {
     this.setState(({ taskData }) => {
       const idx = taskData.findIndex((el) => el.id === id)
-      const newItem = { ...taskData[idx], label: newLabel }
+      const newItem = { ...taskData[idx], label: newLabel ? newLabel : taskData[idx].label }
 
       const newArr = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)]
       return {

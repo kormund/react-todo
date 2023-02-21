@@ -59,7 +59,7 @@ export default class Task extends Component {
           <form
             onSubmit={(e) => {
               e.preventDefault()
-              onEditChange(this.state.label)
+              onEditChange(this.state.label ? this.state.label : this.props.label)
               onToggleEdit(id)
             }}
           >
