@@ -1,2 +1,1 @@
-vercel app: https://react-todo-kormund.vercel.app
-https://task-todo-blush.vercel.app
+vercel app: https://timer-todo-eta.vercel.app
