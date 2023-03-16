@@ -42,7 +42,7 @@ export default class Task extends Component {
     this.setState({
       timer: new Date(),
     })
-    if (this.props.isCounting) {
+    if (this.props.isCounting && this.state.time !== 0) {
       this.setState({
         time: this.state.time - 1,
       })
