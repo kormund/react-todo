@@ -31,7 +31,20 @@ export default class Task extends Component {
   }
 
   render() {
-    const { label, id, onDeleted, onToggleDone, onToggleEdit, edit, done, date, onEditChange } = this.props
+    const {
+      label,
+      time,
+      id,
+      onDeleted,
+      onToggleDone,
+      onToggleEdit,
+      onToggleCount,
+      edit,
+      done,
+      date,
+      onEditChange,
+      isCounting,
+    } = this.props
 
     const creationDate = formatDistanceToNow(date, { includeSeconds: true })
 
@@ -47,10 +60,27 @@ export default class Task extends Component {
     return (
       <li key={id} className={className}>
         <div className="view">
-          <input className="toggle" type="checkbox" checked={done} readOnly={true} onClick={onToggleDone} />
-          <label onClick={onToggleDone}>
-            <span className="description">{label}</span>
-            <span className="created">created {creationDate} ago</span>
+          <input
+            className="toggle"
+            type="checkbox"
+            checked={done}
+            readOnly={true}
+            onClick={onToggleDone}
+            name="label"
+          />
+          <label onClick={onToggleDone} htmlFor="label">
+            <span className="title">{label}</span>
+            <span className="description">
+              {isCounting ? (
+                <button className="icon icon-play" onClick={onToggleCount}></button>
+              ) : (
+                <button className="icon icon-pause" onClick={onToggleCount}></button>
+              )}
+              <span>{time}</span>
+              <span></span>
+              <span></span>
+            </span>
+            <span className="description">created {creationDate} ago</span>
           </label>
           <button className="icon icon-edit" onClick={onToggleEdit}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>

@@ -1,4 +1,4 @@
-.new-todo {
+.new-todo, .new-todo-form, .new-todo-form__timer {
   position: relative;
   margin: 0;
   width: 100%;
@@ -10,8 +10,36 @@
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 16px 16px 16px 60px;
+  padding: 16px;
   border: none;
   background: rgba(0, 0, 0, 0.003);
   box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 }
+
+.new-todo-form {
+  display: flex;
+  margin-bottom: 0;
+}
+
+.new-todo {
+  width: 70%;
+}
+
+.new-todo-form .new-todo-form__timer {
+  width: 15%;
+  padding-left: 16px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+

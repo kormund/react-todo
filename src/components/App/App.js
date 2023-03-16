@@ -27,22 +27,24 @@ export default class App extends Component {
     clearInterval(this.timerID)
   }
 
-  createTask(label) {
+  createTask(label, min, sec) {
     return {
       label,
+      time: Number(+sec + min * 60),
       id: nanoid(),
       done: false,
       edit: false,
       date: Date.now(),
+      isCounting: false,
     }
   }
 
-  addItem = (label) => {
+  addItem = ({ label, min, sec }) => {
     label = label.trim()
     if (label.length < 1) {
       return
     }
-    const newItem = this.createTask(label)
+    const newItem = this.createTask(label, min, sec)
 
     this.setState(({ taskData }) => {
       const newArr = [...taskData, newItem]
@@ -93,6 +95,14 @@ export default class App extends Component {
     this.setState(({ taskData }) => {
       return {
         taskData: this.toggleProperty(taskData, id, 'done'),
+      }
+    })
+  }
+
+  onToggleCount = (id) => {
+    this.setState(({ taskData }) => {
+      return {
+        taskData: this.toggleProperty(taskData, id, 'isCounting'),
       }
     })
   }
