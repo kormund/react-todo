@@ -10,23 +10,7 @@ export default class App extends Component {
   state = {
     taskData: [],
     filter: 'all',
-    timer: new Date(),
   }
-
-  componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 5000)
-  }
-
-  tick() {
-    this.setState({
-      timer: new Date(),
-    })
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID)
-  }
-
   createTask(label, min, sec) {
     return {
       label,
@@ -153,6 +137,7 @@ export default class App extends Component {
             onToggleEdit={this.onToggleEdit}
             onToggleDone={this.onToggleDone}
             onEditChange={this.onEditChange}
+            onToggleCount={this.onToggleCount}
           />
         </section>
         <Footer

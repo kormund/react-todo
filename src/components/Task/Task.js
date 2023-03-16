@@ -3,6 +3,8 @@ import { formatDistanceToNow } from 'date-fns'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { getPadTime } from '../../assets/getPadTime'
+
 export default class Task extends Component {
   static defaultProps = {
     label: '',
@@ -28,12 +30,38 @@ export default class Task extends Component {
 
   state = {
     label: this.props.label,
+    timer: new Date(),
+    time: this.props.time,
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 1000)
+  }
+
+  tick() {
+    this.setState({
+      timer: new Date(),
+    })
+    if (this.props.isCounting) {
+      this.setState({
+        time: this.state.time - 1,
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps && prevProps.isCounting !== this.props.isCounting) {
+      clearInterval(this.timerID)
+    }
   }
 
   render() {
     const {
       label,
-      time,
       id,
       onDeleted,
       onToggleDone,
@@ -57,6 +85,9 @@ export default class Task extends Component {
       className += 'editing'
     }
 
+    let minutes = getPadTime(Math.floor(this.state.time / 60))
+    let seconds = getPadTime(this.state.time - minutes * 60)
+
     return (
       <li key={id} className={className}>
         <div className="view">
@@ -72,13 +103,27 @@ export default class Task extends Component {
             <span className="title">{label}</span>
             <span className="description">
               {isCounting ? (
-                <button className="icon icon-play" onClick={onToggleCount}></button>
+                <button
+                  className="icon icon-pause"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (done) return
+                    onToggleCount()
+                  }}
+                ></button>
               ) : (
-                <button className="icon icon-pause" onClick={onToggleCount}></button>
+                <button
+                  className="icon icon-play"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (done) return
+                    onToggleCount()
+                  }}
+                ></button>
               )}
-              <span>{time}</span>
-              <span></span>
-              <span></span>
+              <span>{minutes}</span>
+              <span>:</span>
+              <span>{seconds}</span>
             </span>
             <span className="description">created {creationDate} ago</span>
           </label>
