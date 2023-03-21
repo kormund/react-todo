@@ -99,7 +99,13 @@ export default class Task extends Component {
             onClick={onToggleDone}
             name="label"
           />
-          <label onClick={onToggleDone} htmlFor="label">
+          <label
+            onClick={() => {
+              onToggleDone()
+              if (isCounting) onToggleCount()
+            }}
+            htmlFor="label"
+          >
             <span className="title">{label}</span>
             <span className="description">
               {isCounting ? (
