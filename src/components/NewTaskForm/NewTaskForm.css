@@ -1,4 +1,6 @@
-.new-todo, .new-todo-form, .new-todo-form__timer {
+.new-todo,
+.new-todo-form,
+.new-todo-form__timer {
   position: relative;
   margin: 0;
   width: 100%;
@@ -38,8 +40,6 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
-
-

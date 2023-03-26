@@ -1,97 +1,64 @@
 import './App.css'
-import { Component } from 'react'
+import { useState } from 'react'
 import { nanoid } from 'nanoid'
 
 import Footer from '../Footer/Footer'
 import NewTaskForm from '../NewTaskForm/NewTaskForm'
 import TaskList from '../TaskList/TaskList'
 
-export default class App extends Component {
-  state = {
-    taskData: [],
-    filter: 'all',
-  }
-  createTask(label, min, sec) {
+const App = () => {
+  const [taskData, setTaskData] = useState([])
+  const [filter, setFilter] = useState('all')
+
+  const createTask = (label, min, sec) => {
     return {
       label,
-      time: Number(+sec + min * 60),
-      id: nanoid(),
       done: false,
       edit: false,
-      date: Date.now(),
-      isCounting: false,
+      time: Number(+sec + min * 60),
+      id: nanoid(),
+      created: Date.now(),
     }
   }
 
-  addItem = ({ label, min, sec }) => {
+  const addItem = ({ label, min, sec }) => {
     label = label.trim()
     if (label.length < 1) {
       return
     }
-    const newItem = this.createTask(label, min, sec)
-
-    this.setState(({ taskData }) => {
-      const newArr = [...taskData, newItem]
-
-      return {
-        taskData: newArr,
-      }
+    const newItem = createTask(label, min, sec)
+    setTaskData((prev) => {
+      return [...prev, newItem]
     })
   }
 
-  deleteItem = (id) => {
-    this.setState(({ taskData }) => {
-      const idx = taskData.findIndex((el) => el.id === id)
-
-      const newArray = [...taskData.slice(0, idx), ...taskData.slice(idx + 1)]
-
-      return {
-        taskData: newArray,
-      }
+  const handleDelete = (id) => {
+    setTaskData((prev) => {
+      const idx = prev.findIndex((el) => el.id === id)
+      return [...prev.slice(0, idx), ...prev.slice(idx + 1)]
     })
   }
 
-  deleteCompleted = () => {
-    this.setState(({ taskData }) => {
-      const completedData = taskData.filter((el) => !el.done)
-
-      return {
-        taskData: completedData,
-      }
+  const clearCompleted = () => {
+    setTaskData((prev) => {
+      return prev.filter((el) => !el.done)
     })
   }
 
-  toggleProperty(arr, id, propName) {
+  const toggleProperty = (arr, id, propName) => {
     const idx = arr.findIndex((el) => el.id === id)
 
     const newItem = { ...arr[idx], [propName]: !arr[idx][propName] }
     return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)]
   }
 
-  onToggleEdit = (id) => {
-    this.setState(({ taskData }) => {
-      return {
-        taskData: this.toggleProperty(taskData, id, 'edit'),
-      }
-    })
-  }
-  onToggleDone = (id) => {
-    this.setState(({ taskData }) => {
-      return {
-        taskData: this.toggleProperty(taskData, id, 'done'),
-      }
+  const handleDone = (id) => {
+    setTaskData((prev) => {
+      return toggleProperty(prev, id, 'done')
     })
   }
 
-  onToggleCount = (id) => {
-    this.setState(({ taskData }) => {
-      return {
-        taskData: this.toggleProperty(taskData, id, 'isCounting'),
-      }
-    })
-  }
-
-  filter(items, filter) {
+  const showFiltered = (items, filter) => {
     switch (filter) {
       case 'all':
         return items
@@ -104,49 +71,40 @@ export default class App extends Component {
     }
   }
 
-  onFilterChange = (filter) => {
-    this.setState({ filter })
+  const handleFilterChange = (filter) => {
+    setFilter(filter)
   }
 
-  onEditChange = (id, newLabel) => {
-    this.setState(({ taskData }) => {
-      const idx = taskData.findIndex((el) => el.id === id)
-      const newItem = { ...taskData[idx], label: newLabel ? newLabel : taskData[idx].label }
-
-      const newArr = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)]
-      return {
-        taskData: newArr,
-      }
+  const handleEditChange = (id, newLabel) => {
+    setTaskData((prev) => {
+      const idx = prev.findIndex((el) => el.id === id)
+      const newItem = { ...prev[idx], label: newLabel ? newLabel : prev[idx].label }
+      return [...prev.slice(0, idx), newItem, ...prev.slice(idx + 1)]
     })
   }
+  const doneCount = taskData.filter((el) => !el.done).length
 
-  render() {
-    const { taskData, filter } = this.state
+  const visibleItems = showFiltered(taskData, filter)
 
-    const doneCount = taskData.filter((el) => !el.done).length
-
-    const visibleItems = this.filter(taskData, filter)
-
-    return (
-      <section className="todoapp">
-        <NewTaskForm addItem={this.addItem} />
-        <section className="main">
-          <TaskList
-            todos={visibleItems}
-            onDeleted={this.deleteItem}
-            onToggleEdit={this.onToggleEdit}
-            onToggleDone={this.onToggleDone}
-            onEditChange={this.onEditChange}
-            onToggleCount={this.onToggleCount}
-          />
-        </section>
-        <Footer
-          tasksLeft={doneCount}
-          deleteCompleted={this.deleteCompleted}
-          filter={filter}
-          onFilterChange={this.onFilterChange}
+  return (
+    <section className="todoapp">
+      <NewTaskForm addItem={addItem} />
+      <section className="main">
+        <TaskList
+          todos={visibleItems}
+          handleDelete={handleDelete}
+          handleDone={handleDone}
+          handleEditChange={handleEditChange}
         />
       </section>
-    )
-  }
+      <Footer
+        tasksLeft={doneCount}
+        clearCompleted={clearCompleted}
+        filter={filter}
+        handleFilterChange={handleFilterChange}
+      />
+    </section>
+  )
 }
+
+export default App
