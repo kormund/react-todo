@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Task from '../Task/Task'
 
-const TaskList = ({ todos, handleDelete, handleDone, handleEditChange }) => {
+const TaskList = ({ todos, handleDelete, handleDone, handleEditChange, handleTimeChange }) => {
   const elements = todos.map((item) => {
     const { id, label, time, edit, done, created } = item
 
@@ -18,6 +18,7 @@ const TaskList = ({ todos, handleDelete, handleDone, handleEditChange }) => {
         handleDelete={() => handleDelete(id)}
         handleDone={() => handleDone(id)}
         handleEditChange={(label) => handleEditChange(id, label)}
+        handleTimeChange={(newTime) => handleTimeChange(id, newTime)}
       />
     )
   })

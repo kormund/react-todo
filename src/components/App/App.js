@@ -82,6 +82,14 @@ const App = () => {
       return [...prev.slice(0, idx), newItem, ...prev.slice(idx + 1)]
     })
   }
+
+  const handleTimeChange = (id, newTime) => {
+    setTaskData((prev) => {
+      const idx = prev.findIndex((el) => el.id === id)
+      const newItem = { ...prev[idx], time: newTime ? newTime : prev[idx].time }
+      return [...prev.slice(0, idx), newItem, ...prev.slice(idx + 1)]
+    })
+  }
   const doneCount = taskData.filter((el) => !el.done).length
 
   const visibleItems = showFiltered(taskData, filter)
@@ -95,6 +103,7 @@ const App = () => {
           handleDelete={handleDelete}
           handleDone={handleDone}
           handleEditChange={handleEditChange}
+          handleTimeChange={handleTimeChange}
         />
       </section>
       <Footer

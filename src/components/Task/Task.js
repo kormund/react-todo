@@ -26,6 +26,7 @@ function Task({
   handleDelete,
   handleDone,
   handleEditChange,
+  handleTimeChange,
 }) {
   const [count, setCount] = useState(false)
   const [editing, setEditing] = useState(edit)
@@ -51,6 +52,7 @@ function Task({
     }, 1000)
     if (!timer) setCount(false)
     return () => {
+      handleTimeChange(timer)
       clearInterval(interval)
     }
   }, [count])
