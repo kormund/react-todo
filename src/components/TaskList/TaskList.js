@@ -4,9 +4,8 @@ import PropTypes from 'prop-types'
 import Task from '../Task/Task'
 
 const TaskList = ({ todos, handleDelete, handleDone, handleEditChange, handleTimeChange }) => {
-  const elements = todos.map((item) => {
+  const tasks = todos.map((item) => {
     const { id, label, time, edit, done, created } = item
-
     return (
       <Task
         label={label}
@@ -22,7 +21,7 @@ const TaskList = ({ todos, handleDelete, handleDone, handleEditChange, handleTim
       />
     )
   })
-  return <ul className="todo-list">{elements}</ul>
+  return <ul className="todo-list">{tasks}</ul>
 }
 
 TaskList.defaultProps = {

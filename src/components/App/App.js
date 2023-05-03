@@ -87,6 +87,8 @@ const App = () => {
     setTaskData((prev) => {
       const idx = prev.findIndex((el) => el.id === id)
       const newItem = { ...prev[idx], time: newTime ? newTime : prev[idx].time }
+      console.log(newItem)
+      console.log(newTime)
       return [...prev.slice(0, idx), newItem, ...prev.slice(idx + 1)]
     })
   }

@@ -31,7 +31,7 @@ function Task({
   const [count, setCount] = useState(false)
   const [editing, setEditing] = useState(edit)
   const [editLabel, setEditLabel] = useState(label)
-  const [timer, setTimer] = useState(time)
+  // const [newTime, setNewTime] = useState(time)
   const creationDate = formatDistanceToNow(created, { includeSeconds: true })
 
   let className = ''
@@ -43,19 +43,25 @@ function Task({
     className += 'editing'
   }
 
-  let minutes = getPadTime(Math.floor(timer / 60))
-  let seconds = getPadTime(timer - minutes * 60)
+  let minutes = getPadTime(Math.floor(time / 60))
+  let seconds = getPadTime(time - minutes * 60)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      count && setTimer((timer) => (timer >= 1 ? timer - 1 : 0))
+    // const interval = setTimeout(() => {
+    //   count && setNewTime((time) => (time >= 1 ? time - 1 : 0))
+    // }, 1000)
+    // if (!time) setCount(false)
+    // return () => {
+    //   clearTimeout(interval)
+    //   handleTimeChange(time)
+    // }
+    const timeout = setTimeout(() => {
+      count && handleTimeChange(time >= 1 ? time - 1 : 0)
     }, 1000)
-    if (!timer) setCount(false)
     return () => {
-      handleTimeChange(timer)
-      clearInterval(interval)
+      clearTimeout(timeout)
     }
-  }, [count])
+  }, [count, time])
 
   const handleStart = () => {
     setCount(true)
